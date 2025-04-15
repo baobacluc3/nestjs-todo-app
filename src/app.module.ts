@@ -13,15 +13,23 @@ import { User } from './user/entities/user.entity';
 import { AppGuardProviders } from './app.guard-provider';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { ThrottleMiddleware } from './common/middleware/throttle.middleware';
+import { DatabaseModule } from './database/database.module';
+import environment from './config/environment';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'todo-db.sqlite',
-      entities: [Todo, User],
-      synchronize: true, // Only use in development!
+    // Configuration
+    ConfigModule.forRoot({
+      load: [environment],
+      isGlobal: true,
+      envFilePath: `.env.${process.env.NODE_ENV || 'development'}`,
     }),
+    
+    // Database
+    DatabaseModule,
+    
+    // Feature modules
     TodoModule,
     UserModule,
     AuthModule,
@@ -34,14 +42,13 @@ import { ThrottleMiddleware } from './common/middleware/throttle.middleware';
     ...AppGuardProviders,
   ],
 })
-
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     // Apply logger middleware to all routes
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL }); // Apply to all routes
-
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
+    
     // Apply throttle middleware to auth routes (login and register)
     consumer
       .apply(ThrottleMiddleware)
@@ -51,6 +58,3 @@ export class AppModule implements NestModule {
       );
   }
 }
-
-
-
