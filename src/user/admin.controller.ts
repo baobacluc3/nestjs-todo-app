@@ -11,6 +11,7 @@ import { Role } from './enums/role.enum';
 import { UserService } from './user.service';
 import { UserResponseDto } from './dto/user-response.dto';
 import { UpdateUserRoleDto } from './dto/update-user-role.dto';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('admin/users')
 @Roles(Role.ADMIN)

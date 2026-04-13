@@ -19,6 +19,7 @@ import { TodoFilterDto } from './dto/todo-filter.dto';
 import { Todo } from './entities/todo.entity';
 import { Role } from '../user/enums/role.enum';
 import { PaginationResponse } from '../common/interfaces/pagination-response.interface';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @ApiTags('todos')
 @Controller('todos')
@@ -37,12 +38,7 @@ export class TodoController {
 
   @Get()
   @Roles(Role.ADMIN, Role.USER, Role.GUEST)
-  async findAll(
-    @Request() req,
-    @Query() filterDto: TodoFilterDto,
-  ): Promise<PaginationResponse<Todo>> {
-    return this.todoService.findAll(req.user.id, filterDto);
-  }
+  async findAll() {}
 
   @Get(':id')
   @Roles(Role.ADMIN, Role.USER, Role.GUEST)

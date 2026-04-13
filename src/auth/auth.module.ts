@@ -13,7 +13,7 @@ import { Reflector } from '@nestjs/core';
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: 'secret',
+      secret: 'secret-key',
       signOptions: { expiresIn: '1h' },
     }),
   ],
