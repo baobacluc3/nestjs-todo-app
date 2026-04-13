@@ -1,4 +1,3 @@
-// src/todo/todo.controller.ts
 import {
   Controller,
   Get,
@@ -9,41 +8,26 @@ import {
   Delete,
   ParseIntPipe,
   HttpCode,
-  UseGuards,
   Request,
   Query,
-  UsePipes,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiBearerAuth,
-  ApiQuery,
-} from '@nestjs/swagger';
+import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodoFilterDto } from './dto/todo-filter.dto';
 import { Todo } from './entities/todo.entity';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import { RolesGuard } from '../common/guards/roles.guard';
-import { Roles } from '../common/decorators/roles.decorator';
 import { Role } from '../user/enums/role.enum';
 import { PaginationResponse } from '../common/interfaces/pagination-response.interface';
 
 @ApiTags('todos')
 @Controller('todos')
-@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
   @Post()
   @Roles(Role.ADMIN, Role.USER)
-  @UsePipes(TodoValidationPipe)
-  @ApiOperation({ summary: 'Create a new todo' })
-  @ApiResponse({ status: 201, description: 'Todo created successfully' })
   async create(
     @Body() createTodoDto: CreateTodoDto,
     @Request() req,
@@ -52,13 +36,7 @@ export class TodoController {
   }
 
   @Get()
-  @Roles(Role.ADMIN, Role.USER, Role.GUEST) // All authenticated users can view todos
-  @ApiOperation({ summary: 'Get filtered and paginated todos' })
-  @ApiResponse({
-    status: 200,
-    description: 'Returns filtered and paginated todos',
-  })
-  @ApiQuery({ type: TodoFilterDto })
+  @Roles(Role.ADMIN, Role.USER, Role.GUEST)
   async findAll(
     @Request() req,
     @Query() filterDto: TodoFilterDto,
@@ -67,10 +45,7 @@ export class TodoController {
   }
 
   @Get(':id')
-  @Roles(Role.ADMIN, Role.USER, Role.GUEST) // All authenticated users can view a specific todo
-  @ApiOperation({ summary: 'Get a specific todo by ID' })
-  @ApiResponse({ status: 200, description: 'Returns the todo' })
-  @ApiResponse({ status: 404, description: 'Todo not found' })
+  @Roles(Role.ADMIN, Role.USER, Role.GUEST)
   async findOne(
     @Param('id', ParseIntPipe) id: number,
     @Request() req,
@@ -80,10 +55,6 @@ export class TodoController {
 
   @Put(':id')
   @Roles(Role.ADMIN, Role.USER)
-  @UsePipes(TodoValidationPipe)
-  @ApiOperation({ summary: 'Update a todo' })
-  @ApiResponse({ status: 200, description: 'Todo updated successfully' })
-  @ApiResponse({ status: 404, description: 'Todo not found' })
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateTodoDto: UpdateTodoDto,
@@ -95,9 +66,6 @@ export class TodoController {
   @Delete(':id')
   @Roles(Role.ADMIN, Role.USER)
   @HttpCode(204)
-  @ApiOperation({ summary: 'Delete a todo' })
-  @ApiResponse({ status: 204, description: 'Todo deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Todo not found' })
   async remove(
     @Param('id', ParseIntPipe) id: number,
     @Request() req,
