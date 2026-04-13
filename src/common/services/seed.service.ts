@@ -1,4 +1,3 @@
-// src/common/services/seed.service.ts
 import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -22,25 +21,23 @@ export class SeedService implements OnModuleInit {
   async seedAdminUser() {
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@example.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
-    
-    // Check if admin user exists
+
     const adminExists = await this.userRepository.findOne({
-      where: { email: adminEmail }
+      where: { email: adminEmail },
     });
-    
+
     if (!adminExists) {
-      // Create admin user
       const hashedPassword = await bcrypt.hash(adminPassword, 10);
-      
+
       const adminUser = this.userRepository.create({
         email: adminEmail,
         username: 'admin',
         password: hashedPassword,
         role: Role.ADMIN,
       });
-      
+
       await this.userRepository.save(adminUser);
-      
+
       this.logger.log('Admin user created successfully');
     } else {
       this.logger.log('Admin user already exists, skipping seed');

@@ -1,4 +1,3 @@
-// src/todo/dto/update-todo.dto.ts
 import { IsString, IsBoolean, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 

@@ -1,4 +1,3 @@
-// src/auth/strategies/jwt.strategy.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -11,20 +10,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'your-secret-key', // In production, use environment variables
+      secretOrKey: 'secret-key',
     });
   }
 
   async validate(payload: JwtPayload) {
     try {
-      // Verify user exists in database
       const user = await this.userService.findById(payload.sub);
-      // Include role in the request
-      return { 
-        id: payload.sub, 
-        email: payload.email, 
+      return {
+        id: payload.sub,
+        email: payload.email,
         username: payload.username,
-        role: payload.role
+        role: payload.role,
       };
     } catch (error) {
       throw new UnauthorizedException('Invalid token');

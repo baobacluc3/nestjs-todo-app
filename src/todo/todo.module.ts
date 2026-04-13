@@ -1,4 +1,3 @@
-// src/todo/todo.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TodoController } from './todo.controller';
@@ -8,8 +7,8 @@ import { AdminTodoController } from './admin-todo.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Todo])],
-  controllers: [TodoController,AdminTodoController],
+  controllers: [TodoController, AdminTodoController],
   providers: [TodoService],
-  exports: [TodoService], // Thêm dòng này để export TodoService
+  exports: [TodoService],
 })
 export class TodoModule {}

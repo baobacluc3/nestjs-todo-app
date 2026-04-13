@@ -1,4 +1,3 @@
-// src/todo/dto/create-todo.dto.ts
 import { IsNotEmpty, IsString, IsBoolean, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -30,6 +29,3 @@ export class CreateTodoDto {
   @IsBoolean()
   completed?: boolean = false;
 }
-
-
-

@@ -1,5 +1,11 @@
-// src/todo/entities/todo.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+} from 'typeorm';
 import { User } from '../../user/entities/user.entity';
 
 @Entity()
@@ -22,11 +28,9 @@ export class Todo {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Relation with User - many todos can belong to one user
-  @ManyToOne(() => User, user => user.todos,{ nullable: true })
+  @ManyToOne(() => User, (user) => user.todos, { nullable: true })
   user: User | null;
 
-  // Store the userId for easier querying
   @Column()
   userId: number;
 }

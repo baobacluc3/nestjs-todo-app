@@ -1,4 +1,3 @@
-// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -14,19 +13,19 @@ import { Reflector } from '@nestjs/core';
     UserModule,
     PassportModule,
     JwtModule.register({
-      secret: 'your-secret-key', // In production, use environment variables
+      secret: 'secret',
       signOptions: { expiresIn: '1h' },
     }),
   ],
   controllers: [AuthController],
   providers: [
-    AuthService, 
-    JwtStrategy, 
+    AuthService,
+    JwtStrategy,
     {
       provide: JwtAuthGuard,
       useFactory: (reflector) => new JwtAuthGuard(reflector),
       inject: [Reflector],
-    }
+    },
   ],
   exports: [AuthService, JwtAuthGuard],
 })

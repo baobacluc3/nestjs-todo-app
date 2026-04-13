@@ -1,4 +1,3 @@
-// src/public/public.module.ts
 import { Module } from '@nestjs/common';
 import { PublicController } from './public.controller';
 import { TodoModule } from '../todo/todo.module';

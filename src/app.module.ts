@@ -1,5 +1,9 @@
-// src/app.module.ts
-import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
+import {
+  Module,
+  NestModule,
+  MiddlewareConsumer,
+  RequestMethod,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -20,7 +24,7 @@ import { ThrottleMiddleware } from './common/middleware/throttle.middleware';
       type: 'sqlite',
       database: 'todo-db.sqlite',
       entities: [Todo, User],
-      synchronize: true, // Only use in development!
+      synchronize: true,
     }),
     TodoModule,
     UserModule,
@@ -29,28 +33,19 @@ import { ThrottleMiddleware } from './common/middleware/throttle.middleware';
     PublicModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    ...AppGuardProviders,
-  ],
+  providers: [AppService, ...AppGuardProviders],
 })
-
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    // Apply logger middleware to all routes
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL }); // Apply to all routes
+      .forRoutes({ path: '*', method: RequestMethod.ALL });
 
-    // Apply throttle middleware to auth routes (login and register)
     consumer
       .apply(ThrottleMiddleware)
       .forRoutes(
         { path: 'auth/login', method: RequestMethod.POST },
-        { path: 'users', method: RequestMethod.POST }
+        { path: 'users', method: RequestMethod.POST },
       );
   }
 }
-
-
-

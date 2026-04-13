@@ -1,5 +1,11 @@
-// src/user/entities/user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Todo } from '../../todo/entities/todo.entity';
 import { Role } from '../enums/role.enum';
@@ -16,10 +22,9 @@ export class User {
   username: string;
 
   @Column()
-  @Exclude() // This will exclude the password from any response
+  @Exclude()
   password: string;
 
-  //Now let's update the User entity to include the role:
   @Column({
     type: 'varchar',
     enum: Role,
@@ -33,7 +38,6 @@ export class User {
   @UpdateDateColumn()
   updatedAt: Date;
 
-  // Relation with Todo - one user can have many todos
-  @OneToMany(() => Todo, todo => todo.user)
+  @OneToMany(() => Todo, (todo) => todo.user)
   todos: Todo[];
 }

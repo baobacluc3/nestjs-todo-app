@@ -1,6 +1,19 @@
-// src/user/admin.controller.ts
-import { Controller, Get, Put, Delete, Param, Body, UseGuards, ParseIntPipe } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Put,
+  Delete,
+  Param,
+  Body,
+  UseGuards,
+  ParseIntPipe,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../common/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -19,21 +32,35 @@ export class AdminController {
 
   @Get()
   @ApiOperation({ summary: 'Get all users (Admin only)' })
-  @ApiResponse({ status: 200, description: 'Returns all users', type: [UserResponseDto] })
+  @ApiResponse({
+    status: 200,
+    description: 'Returns all users',
+    type: [UserResponseDto],
+  })
   async getAllUsers(): Promise<UserResponseDto[]> {
     return this.userService.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get user by ID (Admin only)' })
-  @ApiResponse({ status: 200, description: 'Returns the user', type: UserResponseDto })
-  async getUserById(@Param('id', ParseIntPipe) id: number): Promise<UserResponseDto> {
+  @ApiResponse({
+    status: 200,
+    description: 'Returns the user',
+    type: UserResponseDto,
+  })
+  async getUserById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<UserResponseDto> {
     return this.userService.findById(id);
   }
 
   @Put(':id/role')
   @ApiOperation({ summary: 'Update user role (Admin only)' })
-  @ApiResponse({ status: 200, description: 'Role updated successfully', type: UserResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Role updated successfully',
+    type: UserResponseDto,
+  })
   async updateUserRole(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserRoleDto: UpdateUserRoleDto,

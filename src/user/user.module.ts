@@ -1,4 +1,3 @@
-// src/user/user.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserController } from './user.controller';
@@ -8,8 +7,8 @@ import { AdminController } from './admin.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  controllers: [UserController,AdminController],
+  controllers: [UserController, AdminController],
   providers: [UserService],
-  exports: [UserService], // Export UserService for use in AuthModule
+  exports: [UserService],
 })
 export class UserModule {}

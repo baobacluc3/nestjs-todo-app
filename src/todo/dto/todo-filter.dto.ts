@@ -1,4 +1,3 @@
-// src/todo/dto/todo-filter.dto.ts
 import { IsOptional, IsBoolean, IsString, IsIn } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
