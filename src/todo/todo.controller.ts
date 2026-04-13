@@ -9,21 +9,15 @@ import {
   ParseIntPipe,
   HttpCode,
   Request,
-  Query,
 } from '@nestjs/common';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { TodoFilterDto } from './dto/todo-filter.dto';
 import { Todo } from './entities/todo.entity';
 import { Role } from '../user/enums/role.enum';
-import { PaginationResponse } from '../common/interfaces/pagination-response.interface';
 import { Roles } from 'src/common/decorators/roles.decorator';
 
-@ApiTags('todos')
 @Controller('todos')
-@ApiBearerAuth()
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
@@ -38,7 +32,9 @@ export class TodoController {
 
   @Get()
   @Roles(Role.ADMIN, Role.USER, Role.GUEST)
-  async findAll() {}
+  async findAll(@Request() req): Promise<Todo[]> {
+    return this.todoService.findAll(req.user.id);
+  }
 
   @Get(':id')
   @Roles(Role.ADMIN, Role.USER, Role.GUEST)
@@ -61,7 +57,6 @@ export class TodoController {
 
   @Delete(':id')
   @Roles(Role.ADMIN, Role.USER)
-  @HttpCode(204)
   async remove(
     @Param('id', ParseIntPipe) id: number,
     @Request() req,

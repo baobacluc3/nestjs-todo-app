@@ -16,6 +16,10 @@ export class TodoService {
     private todoRepository: Repository<Todo>,
   ) {}
 
+  async findAll(userId: number): Promise<Todo[]> {
+    return this.todoRepository.find({ where: { userId } });
+  }
+
   async create(createTodoDto: CreateTodoDto, userId: number): Promise<Todo> {
     const todo = this.todoRepository.create({
       ...createTodoDto,

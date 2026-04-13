@@ -6,15 +6,15 @@ import {
   Param,
   Body,
   ParseIntPipe,
-  Query,
 } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
-
 import { Role } from '../user/enums/role.enum';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @Controller('admin/todos')
+@Roles(Role.ADMIN)
 export class AdminTodoController {
   constructor(private readonly todoService: TodoService) {}
 
