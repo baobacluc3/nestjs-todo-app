@@ -1,31 +1,15 @@
-import { IsNotEmpty, IsString, IsBoolean, IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsNotEmpty, IsOptional, IsBoolean } from 'class-validator';
 
 export class CreateTodoDto {
-  @ApiProperty({
-    description: 'The title of the todo item',
-    example: 'Learn NestJS',
-  })
-  @IsNotEmpty()
   @IsString()
+  @IsNotEmpty()
   title: string;
 
-  @ApiProperty({
-    description: 'Description of the todo item',
-    example: 'Build a Todo API with NestJS and TypeORM',
-    required: false,
-  })
-  @IsOptional()
   @IsString()
+  @IsOptional()
   description?: string;
 
-  @ApiProperty({
-    description: 'Whether the todo is completed',
-    example: false,
-    default: false,
-    required: false,
-  })
-  @IsOptional()
   @IsBoolean()
-  completed?: boolean = false;
+  @IsOptional()
+  completed?: boolean;
 }

@@ -4,7 +4,6 @@ import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { Role } from 'src/user/enums/role.enum';
 
 @Injectable()
 export class AuthService {

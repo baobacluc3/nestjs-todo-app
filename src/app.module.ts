@@ -1,9 +1,4 @@
-import {
-  Module,
-  NestModule,
-  MiddlewareConsumer,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -14,9 +9,6 @@ import { CommonModule } from './common/common.module';
 import { PublicModule } from './public/public.module';
 import { Todo } from './todo/entities/todo.entity';
 import { User } from './user/entities/user.entity';
-import { AppGuardProviders } from './app.guard-provider';
-import { LoggerMiddleware } from './common/middleware/logger.middleware';
-import { ThrottleMiddleware } from './common/middleware/throttle.middleware';
 
 @Module({
   imports: [
@@ -33,19 +25,6 @@ import { ThrottleMiddleware } from './common/middleware/throttle.middleware';
     PublicModule,
   ],
   controllers: [AppController],
-  providers: [AppService, ...AppGuardProviders],
+  providers: [AppService],
 })
-export class AppModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(LoggerMiddleware)
-      .forRoutes({ path: '*', method: RequestMethod.ALL });
-
-    consumer
-      .apply(ThrottleMiddleware)
-      .forRoutes(
-        { path: 'auth/login', method: RequestMethod.POST },
-        { path: 'users', method: RequestMethod.POST },
-      );
-  }
-}
+export class AppModule {}

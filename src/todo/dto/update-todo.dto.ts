@@ -1,31 +1,15 @@
-import { IsString, IsBoolean, IsOptional } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
+import { IsString, IsOptional, IsBoolean } from 'class-validator';
 
 export class UpdateTodoDto {
-  @ApiProperty({
-    description: 'The title of the todo item',
-    example: 'Updated Todo Title',
-    required: false,
-  })
-  @IsOptional()
   @IsString()
+  @IsOptional()
   title?: string;
 
-  @ApiProperty({
-    description: 'Description of the todo item',
-    example: 'Updated todo description',
-    required: false,
-  })
-  @IsOptional()
   @IsString()
+  @IsOptional()
   description?: string;
 
-  @ApiProperty({
-    description: 'Whether the todo is completed',
-    example: true,
-    required: false,
-  })
-  @IsOptional()
   @IsBoolean()
+  @IsOptional()
   completed?: boolean;
 }
