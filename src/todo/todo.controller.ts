@@ -16,8 +16,10 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
 import { Role } from '../user/enums/role.enum';
 import { Roles } from 'src/common/decorators/roles.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('todos')
+@ApiBearerAuth()
 export class TodoController {
   constructor(private readonly todoService: TodoService) {}
 
