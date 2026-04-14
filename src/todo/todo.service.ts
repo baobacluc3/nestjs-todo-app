@@ -62,33 +62,4 @@ export class TodoService {
 
     await this.todoRepository.delete(id);
   }
-
-  async findOneForAdmin(id: number): Promise<Todo> {
-    const todo = await this.todoRepository.findOne({
-      where: { id },
-      relations: ['user'],
-    });
-
-    if (!todo) {
-      throw new NotFoundException(`Todo with ID ${id} not found`);
-    }
-
-    return todo;
-  }
-
-  async updateForAdmin(
-    id: number,
-    updateTodoDto: UpdateTodoDto,
-  ): Promise<Todo> {
-    const todo = await this.findOneForAdmin(id);
-
-    const updatedTodo = this.todoRepository.merge(todo, updateTodoDto);
-
-    return this.todoRepository.save(updatedTodo);
-  }
-
-  async removeForAdmin(id: number): Promise<void> {
-    const todo = await this.findOneForAdmin(id);
-    await this.todoRepository.remove(todo);
-  }
 }

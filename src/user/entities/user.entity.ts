@@ -8,7 +8,6 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { Todo } from '../../todo/entities/todo.entity';
-import { Role } from '../enums/role.enum';
 
 @Entity()
 export class User {
@@ -24,13 +23,6 @@ export class User {
   @Column()
   @Exclude()
   password: string;
-
-  @Column({
-    type: 'varchar',
-    enum: Role,
-    default: Role.USER,
-  })
-  role: Role;
 
   @CreateDateColumn()
   createdAt: Date;

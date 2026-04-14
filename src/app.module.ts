@@ -8,30 +8,11 @@ import { AuthModule } from './auth/auth.module';
 import { Todo } from './todo/entities/todo.entity';
 import { User } from './user/entities/user.entity';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
-import { RolesGuard } from './auth/guards/roles.guard';
 import { APP_GUARD } from '@nestjs/core';
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '123456',
-      database: 'todo_db',
-      entities: [Todo, User],
-      synchronize: true,
-    }),
-    TodoModule,
-    UserModule,
-    AuthModule,
-  ],
+  imports: [TodoModule, UserModule, AuthModule],
   controllers: [AppController],
-  providers: [
-    AppService,
-    { provide: APP_GUARD, useClass: JwtAuthGuard },
-    { provide: APP_GUARD, useClass: RolesGuard },
-  ],
+  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {}

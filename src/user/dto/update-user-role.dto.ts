@@ -5,7 +5,7 @@ import { Role } from '../enums/role.enum';
 export class UpdateUserRoleDto {
   @ApiProperty({
     enum: Role,
-    description: 'The new role for the user',
+    description: 'The new role for user',
     example: Role.ADMIN,
   })
   @IsNotEmpty()

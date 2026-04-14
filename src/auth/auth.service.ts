@@ -4,7 +4,6 @@ import * as bcrypt from 'bcrypt';
 import { UserService } from '../user/user.service';
 import { LoginUserDto } from '../user/dto/login-user.dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
-import { Role } from 'src/user/enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +40,6 @@ export class AuthService {
       sub: user.id,
       email: user.email,
       username: user.username,
-      role: user.role,
     };
 
     return {
@@ -50,7 +48,6 @@ export class AuthService {
         id: user.id,
         email: user.email,
         username: user.username,
-        role: user.role,
       },
     };
   }
